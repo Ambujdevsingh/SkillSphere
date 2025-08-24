@@ -7,21 +7,32 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
-import { 
-  BookOpen, Play, Star, Clock, Users, Search, Filter, ChevronRight, Trophy, Target, Zap, 
+import {
+  BookOpen, Play, Star, Clock, Users, Search, Filter, ChevronRight, Trophy, Target, Zap,
   Bot, MessageCircle, Video, Calendar, ArrowRight, Code, Palette, Briefcase, TrendingUp,
   Heart, Award, Globe, Mail, Phone, Linkedin, Instagram, Twitter, ChevronDown, Menu,
   X, Mic, Send, Bell, Flame, User, BookText, HelpCircle, Settings, LogOut, CheckCircle,
   ArrowLeft, MapPin, GraduationCap, Rocket, Lightbulb, UserPlus, FileText, Database,
   Wrench, Brain, Monitor, PenTool, BarChart, Atom
 } from "lucide-react"
+import { JSX, SVGProps } from "react"
 
-const Index = () => {
+// A simple utility to format dates for display
+const formatDate = (date) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(date).toLocaleDateString(undefined, options);
+};
+
+// Main App Component
+const App = () => {
+  // State to manage user login status and mobile menu visibility
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [showMobileMenu, setShowMobileMenu] = useState(false)
+  
+  // State to manage which section is active in the dashboard
   const [activeSection, setActiveSection] = useState("home")
 
-  // Mock data for various sections
+  // Mock data for various sections of the app
   const projects = [
     {
       id: 1,
@@ -133,197 +144,353 @@ const Index = () => {
     { name: "Jordan Wright", points: 2456, streak: 28, project: "Blockchain Wallet", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50" }
   ]
 
-  if (isLoggedIn) {
-    // Dashboard View
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900" data-spec-id="dashboard-container">
-        {/* Dashboard Navigation */}
-        <nav className="bg-black/20 backdrop-blur-md border-b border-white/10" data-spec-id="dashboard-nav">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center gap-2" data-spec-id="dashboard-logo">
-                <Bot className="w-8 h-8 text-blue-400" />
-                <span className="text-xl font-bold text-white">LearnAI</span>
-                <Badge className="bg-yellow-500 text-black" data-spec-id="upgrade-badge">Upgrade to Unlock Surprises</Badge>
-              </div>
-              <div className="flex items-center gap-4">
-                <Bell className="w-5 h-5 text-gray-300" />
-                <Avatar className="w-8 h-8">
-                  <AvatarFallback>U</AvatarFallback>
-                </Avatar>
-              </div>
+  // Function to render the logged-in dashboard view
+  const renderDashboard = () => (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900" data-spec-id="dashboard-container">
+      {/* Dashboard Navigation */}
+      <nav className="bg-black/20 backdrop-blur-md border-b border-white/10" data-spec-id="dashboard-nav">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-2" data-spec-id="dashboard-logo">
+              <Bot className="w-8 h-8 text-blue-400" />
+              <span className="text-xl font-bold text-white">LearnAI</span>
+              <Badge className="bg-yellow-500 text-black" data-spec-id="upgrade-badge">Upgrade to Unlock Surprises</Badge>
+            </div>
+            <div className="flex items-center gap-4">
+              <Bell className="w-5 h-5 text-gray-300" />
+              <Avatar className="w-8 h-8">
+                <AvatarFallback>U</AvatarFallback>
+              </Avatar>
             </div>
           </div>
-        </nav>
+        </div>
+      </nav>
 
-        <div className="flex h-[calc(100vh-4rem)]">
-          {/* Left Sidebar */}
-          <div className="w-64 bg-black/20 backdrop-blur-md border-r border-white/10 p-4" data-spec-id="dashboard-sidebar">
-            <div className="space-y-2" data-spec-id="sidebar-menu">
-              <Button variant="ghost" className="w-full justify-start text-white hover:bg-white/10" data-spec-id="menu-home">
-                <Bot className="w-4 h-4 mr-2" />
-                Home
-              </Button>
-              <Button variant="ghost" className="w-full justify-start text-white hover:bg-white/10" data-spec-id="menu-create-ai">
-                <Lightbulb className="w-4 h-4 mr-2" />
-                Create with AI
-              </Button>
-              <Button variant="ghost" className="w-full justify-start text-white hover:bg-white/10" data-spec-id="menu-ask-tutor">
-                <MessageCircle className="w-4 h-4 mr-2" />
-                Ask AI Tutor
-              </Button>
-              <Button variant="ghost" className="w-full justify-start text-white hover:bg-white/10" data-spec-id="menu-roadmap">
-                <MapPin className="w-4 h-4 mr-2" />
-                My Roadmap
-              </Button>
-              <Button variant="ghost" className="w-full justify-start text-white hover:bg-white/10" data-spec-id="menu-course">
-                <BookOpen className="w-4 h-4 mr-2" />
-                My Course
-              </Button>
-              <Button variant="ghost" className="w-full justify-start text-white hover:bg-white/10" data-spec-id="menu-guide">
-                <FileText className="w-4 h-4 mr-2" />
-                Guide
-              </Button>
-              <Button variant="ghost" className="w-full justify-start text-white hover:bg-white/10" data-spec-id="menu-quiz">
-                <HelpCircle className="w-4 h-4 mr-2" />
-                Quiz
-              </Button>
-              <Button variant="ghost" className="w-full justify-start text-white hover:bg-white/10" data-spec-id="menu-challenges">
-                <Target className="w-4 h-4 mr-2" />
-                Challenges
-              </Button>
-              <Button variant="ghost" className="w-full justify-start text-white hover:bg-white/10" data-spec-id="menu-peer-hub">
-                <Users className="w-4 h-4 mr-2" />
-                Peer Hub+
-              </Button>
-              <Button variant="ghost" className="w-full justify-start text-white hover:bg-white/10" data-spec-id="menu-projects">
-                <Code className="w-4 h-4 mr-2" />
-                Projects
-              </Button>
-              <Button variant="ghost" className="w-full justify-start text-white hover:bg-white/10" data-spec-id="menu-mentors">
-                <GraduationCap className="w-4 h-4 mr-2" />
-                Mentors
-              </Button>
-              <Button variant="ghost" className="w-full justify-start text-white hover:bg-white/10" data-spec-id="menu-profile">
-                <User className="w-4 h-4 mr-2" />
-                Profile
-              </Button>
-            </div>
+      <div className="flex h-[calc(100vh-4rem)]">
+        {/* Left Sidebar */}
+        <div className="hidden lg:block w-64 bg-black/20 backdrop-blur-md border-r border-white/10 p-4" data-spec-id="dashboard-sidebar">
+          <div className="space-y-2" data-spec-id="sidebar-menu">
+            {/* Nav Links. Added onClick handlers to change activeSection state */}
+            <Button variant="ghost" className={`w-full justify-start text-white hover:bg-white/10 ${activeSection === "home" ? "bg-white/20" : ""}`} onClick={() => setActiveSection("home")} data-spec-id="menu-home">
+              <Bot className="w-4 h-4 mr-2" />
+              Home
+            </Button>
+            <Button variant="ghost" className={`w-full justify-start text-white hover:bg-white/10 ${activeSection === "create" ? "bg-white/20" : ""}`} onClick={() => setActiveSection("create")} data-spec-id="menu-create-ai">
+              <Lightbulb className="w-4 h-4 mr-2" />
+              Create with AI
+            </Button>
+            <Button variant="ghost" className={`w-full justify-start text-white hover:bg-white/10 ${activeSection === "ask-tutor" ? "bg-white/20" : ""}`} onClick={() => setActiveSection("ask-tutor")} data-spec-id="menu-ask-tutor">
+              <MessageCircle className="w-4 h-4 mr-2" />
+              Ask AI Tutor
+            </Button>
+            <Button variant="ghost" className={`w-full justify-start text-white hover:bg-white/10 ${activeSection === "roadmap" ? "bg-white/20" : ""}`} onClick={() => setActiveSection("roadmap")} data-spec-id="menu-roadmap">
+              <MapPin className="w-4 h-4 mr-2" />
+              My Roadmap
+            </Button>
+            <Button variant="ghost" className={`w-full justify-start text-white hover:bg-white/10 ${activeSection === "course" ? "bg-white/20" : ""}`} onClick={() => setActiveSection("course")} data-spec-id="menu-course">
+              <BookOpen className="w-4 h-4 mr-2" />
+              My Course
+            </Button>
+            <Button variant="ghost" className={`w-full justify-start text-white hover:bg-white/10 ${activeSection === "projects" ? "bg-white/20" : ""}`} onClick={() => setActiveSection("projects")} data-spec-id="menu-projects">
+              <Code className="w-4 h-4 mr-2" />
+              Projects
+            </Button>
+            <Button variant="ghost" className={`w-full justify-start text-white hover:bg-white/10 ${activeSection === "mentors" ? "bg-white/20" : ""}`} onClick={() => setActiveSection("mentors")} data-spec-id="menu-mentors">
+              <GraduationCap className="w-4 h-4 mr-2" />
+              Mentors
+            </Button>
+            <Button variant="ghost" className={`w-full justify-start text-white hover:bg-white/10 ${activeSection === "peer-hub" ? "bg-white/20" : ""}`} onClick={() => setActiveSection("peer-hub")} data-spec-id="menu-peer-hub">
+              <Users className="w-4 h-4 mr-2" />
+              Peer Hub+
+            </Button>
           </div>
+        </div>
 
-          {/* Main Panel */}
-          <div className="flex-1 p-6 overflow-y-auto" data-spec-id="dashboard-main">
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-8">
-                <h1 className="text-4xl font-bold text-white mb-4" data-spec-id="dashboard-headline">
-                  Your AI Tutor &gt; Learn by Doing &gt; Grow with Peers &gt; Get Guided by Experts
-                </h1>
-                <p className="text-xl text-gray-300 mb-6" data-spec-id="dashboard-subheading">
-                  Enter a Topic below to generate a personalized Roadmap & Course.
-                </p>
+        {/* Main Panel Content - Conditionally rendered based on activeSection */}
+        <div className="flex-1 p-6 overflow-y-auto" data-spec-id="dashboard-main">
+          <div className="max-w-4xl mx-auto">
+
+            {activeSection === "home" && (
+              <div data-spec-id="home-section">
+                <div className="text-center mb-8">
+                  <h1 className="text-4xl font-bold text-white mb-4" data-spec-id="dashboard-headline">
+                    Your AI Tutor &gt; Learn by Doing &gt; Grow with Peers &gt; Get Guided by Experts
+                  </h1>
+                  <p className="text-xl text-gray-300 mb-6" data-spec-id="dashboard-subheading">
+                    Enter a Topic below to generate a personalized Roadmap & Course.
+                  </p>
+                </div>
+
+                {/* Prompt Input Card */}
+                <Card className="bg-white/10 backdrop-blur-md border-white/20 mb-8" data-spec-id="prompt-input-card">
+                  <CardContent className="p-6">
+                    <div className="flex gap-4" data-spec-id="prompt-input-section">
+                      <Input
+                        placeholder="Enter a topic you want to learn (e.g., Machine Learning, Web Development, UI/UX Design)"
+                        className="flex-1 bg-white/20 border-white/30 text-white placeholder-gray-300"
+                        data-spec-id="topic-input"
+                      />
+                      <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600" data-spec-id="generate-btn">
+                        <Send className="w-4 h-4 mr-2" />
+                        Generate
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Horizontal Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" data-spec-id="dashboard-cards">
+                  <Card className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-md border-white/20 hover:bg-white/10 transition-colors cursor-pointer" data-spec-id="course-card">
+                    <CardContent className="p-6 text-center">
+                      <BookOpen className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+                      <h3 className="text-xl font-semibold text-white mb-2">Course</h3>
+                      <p className="text-gray-300">Structured learning path</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-md border-white/20 hover:bg-white/10 transition-colors cursor-pointer" data-spec-id="guide-card">
+                    <CardContent className="p-6 text-center">
+                      <FileText className="w-12 h-12 text-green-400 mx-auto mb-4" />
+                      <h3 className="text-xl font-semibold text-white mb-2">Guide</h3>
+                      <p className="text-gray-300">Step-by-step guidance</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-md border-white/20 hover:bg-white/10 transition-colors cursor-pointer" data-spec-id="roadmap-card">
+                    <CardContent className="p-6 text-center">
+                      <MapPin className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                      <h3 className="text-xl font-semibold text-white mb-2">Roadmap</h3>
+                      <p className="text-gray-300">Personalized learning journey</p>
+                    </CardContent>
+                  </Card>
+                </div>
               </div>
+            )}
 
-              {/* Prompt Input Card */}
-              <Card className="bg-white/10 backdrop-blur-md border-white/20 mb-8" data-spec-id="prompt-input-card">
-                <CardContent className="p-6">
-                  <div className="flex gap-4" data-spec-id="prompt-input-section">
-                    <Input 
-                      placeholder="Enter a topic you want to learn (e.g., Machine Learning, Web Development, UI/UX Design)"
-                      className="flex-1 bg-white/20 border-white/30 text-white placeholder-gray-300"
-                      data-spec-id="topic-input"
-                    />
-                    <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600" data-spec-id="generate-btn">
-                      <Send className="w-4 h-4 mr-2" />
-                      Generate
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+            {activeSection === "projects" && (
+              <div data-spec-id="projects-section">
+                <h2 className="text-3xl font-bold text-white mb-6">Explore Projects</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {projects.map(project => (
+                    <Card key={project.id} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300">
+                      <img src={project.image} alt={project.title} className="rounded-t-lg w-full h-40 object-cover" />
+                      <CardContent className="p-6">
+                        <div className="flex justify-between items-start mb-2">
+                          <h3 className="text-xl font-semibold text-white">{project.title}</h3>
+                          <Badge className="bg-gray-700 text-gray-200">{project.difficulty}</Badge>
+                        </div>
+                        <p className="text-sm text-gray-300 mb-4">{project.domain}</p>
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {project.tools.map(tool => (
+                            <Badge key={tool} variant="secondary" className="bg-gray-800 text-gray-300">{tool}</Badge>
+                          ))}
+                        </div>
+                        <div className="flex items-center text-gray-300 gap-2 text-sm">
+                          <Users className="w-4 h-4" />
+                          <span>{project.collaborators} Collaborators</span>
+                        </div>
+                        <Button className="w-full mt-4 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
+                          Join Project <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
 
-              {/* Horizontal Cards */}
-              <div className="grid grid-cols-3 gap-6 mb-8" data-spec-id="dashboard-cards">
-                <Card className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-md border-white/20 hover:bg-white/10 transition-colors cursor-pointer" data-spec-id="course-card">
-                  <CardContent className="p-6 text-center">
-                    <BookOpen className="w-12 h-12 text-blue-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-white mb-2">Course</h3>
-                    <p className="text-gray-300">Structured learning path</p>
+            {activeSection === "mentors" && (
+              <div data-spec-id="mentors-section">
+                <h2 className="text-3xl font-bold text-white mb-6">Connect with Mentors</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {mentors.map(mentor => (
+                    <Card key={mentor.id} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300 text-center">
+                      <CardContent className="p-6">
+                        <Avatar className="w-20 h-20 mx-auto mb-4">
+                          <AvatarImage src={mentor.image} alt={mentor.name} />
+                          <AvatarFallback>{mentor.name.split(" ").map(n => n[0]).join("")}</AvatarFallback>
+                        </Avatar>
+                        <h3 className="text-xl font-semibold text-white">{mentor.name}</h3>
+                        <p className="text-sm text-gray-400 mb-2">{mentor.domain}</p>
+                        <div className="flex flex-wrap justify-center gap-2 mb-4">
+                          {mentor.expertise.map(skill => (
+                            <Badge key={skill} variant="secondary" className="bg-gray-800 text-gray-300">{skill}</Badge>
+                          ))}
+                        </div>
+                        <p className="text-xs text-gray-500">Experience: {mentor.experience}</p>
+                        <Button className="w-full mt-4 bg-purple-500 hover:bg-purple-600">
+                          Book a Call
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {activeSection === "roadmap" && (
+              <div data-spec-id="roadmap-section">
+                <h2 className="text-3xl font-bold text-white mb-6">My Personalized Roadmap</h2>
+                <Card className="bg-white/10 backdrop-blur-md border-white/20">
+                  <CardHeader>
+                    <CardTitle className="text-white">Machine Learning Fundamentals</CardTitle>
+                    <CardDescription className="text-gray-400">Your custom learning path to become an ML engineer.</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-4 text-gray-300">
+                      <li className="flex items-center gap-4">
+                        <CheckCircle className="w-6 h-6 text-green-400" />
+                        <span className="flex-1">Module 1: Linear Algebra & Calculus for ML</span>
+                        <Badge className="bg-blue-600">Completed</Badge>
+                      </li>
+                      <li className="flex items-center gap-4">
+                        <CheckCircle className="w-6 h-6 text-green-400" />
+                        <span className="flex-1">Module 2: Python & Data Science Libraries</span>
+                        <Badge className="bg-blue-600">Completed</Badge>
+                      </li>
+                      <li className="flex items-center gap-4">
+                        <Clock className="w-6 h-6 text-yellow-400" />
+                        <span className="flex-1">Module 3: Introduction to Neural Networks</span>
+                        <Progress value={75} className="w-40" />
+                      </li>
+                      <li className="flex items-center gap-4">
+                        <ArrowRight className="w-6 h-6 text-gray-400" />
+                        <span className="flex-1">Module 4: Computer Vision with TensorFlow</span>
+                        <Badge variant="secondary">Upcoming</Badge>
+                      </li>
+                    </ul>
                   </CardContent>
                 </Card>
-                <Card className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-md border-white/20 hover:bg-white/10 transition-colors cursor-pointer" data-spec-id="guide-card">
-                  <CardContent className="p-6 text-center">
-                    <FileText className="w-12 h-12 text-green-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-white mb-2">Guide</h3>
-                    <p className="text-gray-300">Step-by-step guidance</p>
+              </div>
+            )}
+            
+            {activeSection === "course" && (
+              <div data-spec-id="course-section">
+                <h2 className="text-3xl font-bold text-white mb-6">My Course: Introduction to AI</h2>
+                <Card className="bg-white/10 backdrop-blur-md border-white/20">
+                  <CardContent className="p-6">
+                    <Tabs defaultValue="overview">
+                      <TabsList className="bg-gray-800">
+                        <TabsTrigger value="overview">Overview</TabsTrigger>
+                        <TabsTrigger value="modules">Modules</TabsTrigger>
+                        <TabsTrigger value="quiz">Quiz</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="overview" className="mt-4 text-gray-300">
+                        <p>This course covers the foundational concepts of Artificial Intelligence, including machine learning, deep learning, and natural language processing. It is designed for beginners with no prior experience.</p>
+                      </TabsContent>
+                      <TabsContent value="modules" className="mt-4 space-y-4">
+                        <div className="flex justify-between items-center p-4 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors cursor-pointer">
+                          <div className="flex items-center gap-4">
+                            <Play className="w-6 h-6 text-blue-400" />
+                            <span className="text-white">Lesson 1: What is AI?</span>
+                          </div>
+                          <ChevronRight className="w-5 h-5 text-gray-400" />
+                        </div>
+                        <div className="flex justify-between items-center p-4 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors cursor-pointer">
+                          <div className="flex items-center gap-4">
+                            <Play className="w-6 h-6 text-blue-400" />
+                            <span className="text-white">Lesson 2: Machine Learning vs. Deep Learning</span>
+                          </div>
+                          <ChevronRight className="w-5 h-5 text-gray-400" />
+                        </div>
+                      </TabsContent>
+                    </Tabs>
                   </CardContent>
                 </Card>
-                <Card className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-md border-white/20 hover:bg-white/10 transition-colors cursor-pointer" data-spec-id="roadmap-card">
-                  <CardContent className="p-6 text-center">
-                    <MapPin className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-white mb-2">Roadmap</h3>
-                    <p className="text-gray-300">Personalized learning journey</p>
+              </div>
+            )}
+
+            {activeSection === "peer-hub" && (
+              <div data-spec-id="peer-hub-section">
+                <h2 className="text-3xl font-bold text-white mb-6">Peer Hub+</h2>
+                <Card className="bg-white/10 backdrop-blur-md border-white/20">
+                  <CardHeader>
+                    <CardTitle className="text-white">Find Your Crew</CardTitle>
+                    <CardDescription className="text-gray-400">Join groups working on similar projects or create your own.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex justify-between items-center p-4 rounded-lg bg-gray-800">
+                      <div className="flex items-center gap-4">
+                        <Users className="w-8 h-8 text-blue-400" />
+                        <div>
+                          <p className="text-white font-medium">Web Dev Crew</p>
+                          <p className="text-sm text-gray-400">Collaborating on the E-commerce platform project.</p>
+                        </div>
+                      </div>
+                      <Button variant="outline" className="text-gray-300 border-gray-600">View</Button>
+                    </div>
+                    <div className="flex justify-between items-center p-4 rounded-lg bg-gray-800">
+                      <div className="flex items-center gap-4">
+                        <Users className="w-8 h-8 text-purple-400" />
+                        <div>
+                          <p className="text-white font-medium">AI & NLP Study Group</p>
+                          <p className="text-sm text-gray-400">A community for discussing the latest research.</p>
+                        </div>
+                      </div>
+                      <Button variant="outline" className="text-gray-300 border-gray-600">View</Button>
+                    </div>
                   </CardContent>
                 </Card>
+              </div>
+            )}
+
+          </div>
+        </div>
+
+        {/* Right Sidebar */}
+        <div className="w-80 bg-black/20 backdrop-blur-md border-l border-white/10 p-4" data-spec-id="dashboard-right-sidebar">
+          <div className="space-y-6">
+            {/* Notifications */}
+            <div data-spec-id="notifications-section">
+              <h3 className="text-white font-semibold mb-4">Notifications</h3>
+              <div className="space-y-2">
+                <div className="bg-white/10 rounded-lg p-3" data-spec-id="notification-1">
+                  <p className="text-sm text-gray-300">New project invitation from Alex</p>
+                </div>
+                <div className="bg-white/10 rounded-lg p-3" data-spec-id="notification-2">
+                  <p className="text-sm text-gray-300">Mentor call in 30 minutes</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Right Sidebar */}
-          <div className="w-80 bg-black/20 backdrop-blur-md border-l border-white/10 p-4" data-spec-id="dashboard-right-sidebar">
-            <div className="space-y-6">
-              {/* Notifications */}
-              <div data-spec-id="notifications-section">
-                <h3 className="text-white font-semibold mb-4">Notifications</h3>
-                <div className="space-y-2">
-                  <div className="bg-white/10 rounded-lg p-3" data-spec-id="notification-1">
-                    <p className="text-sm text-gray-300">New project invitation from Alex</p>
-                  </div>
-                  <div className="bg-white/10 rounded-lg p-3" data-spec-id="notification-2">
-                    <p className="text-sm text-gray-300">Mentor call in 30 minutes</p>
-                  </div>
+            {/* Streak Counter */}
+            <div data-spec-id="streak-section">
+              <h3 className="text-white font-semibold mb-4">Learning Streak</h3>
+              <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Flame className="w-6 h-6 text-orange-400" />
+                  <span className="text-2xl font-bold text-white">15</span>
+                </div>
+                <p className="text-sm text-gray-300">Days streak</p>
+              </div>
+            </div>
+
+            {/* Upcoming Mentor Calls */}
+            <div data-spec-id="mentor-calls-section">
+              <h3 className="text-white font-semibold mb-4">Upcoming Calls</h3>
+              <div className="space-y-2">
+                <div className="bg-white/10 rounded-lg p-3" data-spec-id="mentor-call-1">
+                  <p className="text-sm text-white font-medium">Dr. Sarah Chen</p>
+                  <p className="text-xs text-gray-300">Today, 3:00 PM</p>
                 </div>
               </div>
+            </div>
 
-              {/* Streak Counter */}
-              <div data-spec-id="streak-section">
-                <h3 className="text-white font-semibold mb-4">Learning Streak</h3>
-                <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Flame className="w-6 h-6 text-orange-400" />
-                    <span className="text-2xl font-bold text-white">15</span>
-                  </div>
-                  <p className="text-sm text-gray-300">Days streak</p>
-                </div>
-              </div>
-
-              {/* Upcoming Mentor Calls */}
-              <div data-spec-id="mentor-calls-section">
-                <h3 className="text-white font-semibold mb-4">Upcoming Calls</h3>
-                <div className="space-y-2">
-                  <div className="bg-white/10 rounded-lg p-3" data-spec-id="mentor-call-1">
-                    <p className="text-sm text-white font-medium">Dr. Sarah Chen</p>
-                    <p className="text-xs text-gray-300">Today, 3:00 PM</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Group Notifications */}
-              <div data-spec-id="group-notifications-section">
-                <h3 className="text-white font-semibold mb-4">Group Activity</h3>
-                <div className="space-y-2">
-                  <div className="bg-white/10 rounded-lg p-3" data-spec-id="group-notification-1">
-                    <p className="text-sm text-gray-300">New message in AI Study Group</p>
-                  </div>
+            {/* Group Notifications */}
+            <div data-spec-id="group-notifications-section">
+              <h3 className="text-white font-semibold mb-4">Group Activity</h3>
+              <div className="space-y-2">
+                <div className="bg-white/10 rounded-lg p-3" data-spec-id="group-notification-1">
+                  <p className="text-sm text-gray-300">New message in AI Study Group</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 
-  // Landing Page View
-  return (
+  // Function to render the landing page view
+  const renderLandingPage = () => (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900" data-spec-id="landing-container">
       {/* Navigation Bar */}
       <nav className="bg-black/20 backdrop-blur-md border-b border-white/10 sticky top-0 z-50" data-spec-id="main-navigation">
@@ -398,9 +565,9 @@ const Index = () => {
           {/* Hero Visual */}
           <div className="mb-12" data-spec-id="hero-visual">
             <div className="relative">
-              <img 
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800" 
-                alt="AI Learning collaboration" 
+              <img
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800"
+                alt="AI Learning collaboration"
                 className="rounded-2xl mx-auto max-w-4xl w-full opacity-80"
                 data-spec-id="hero-image"
               />
@@ -501,9 +668,6 @@ const Index = () => {
                 <p className="text-gray-300 mb-4" data-spec-id="sme-description">
                   Book 1:1 video calls with industry experts to discuss your learnings & problems
                 </p>
-                <Button className="w-full mt-2 bg-purple-500 hover:bg-purple-600" data-spec-id="book-sme-btn">
-                  Book Consultation
-                </Button>
               </CardContent>
             </Card>
 
@@ -515,7 +679,7 @@ const Index = () => {
                     <GraduationCap className="w-12 h-12 text-yellow-400" />
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3" data-spec-id="mentor-title">& Mentor Guidance</h3>
+                <h3 className="text-xl font-semibold text-white mb-3" data-spec-id="mentor-title">Mentor Guidance</h3>
                 <p className="text-gray-300 mb-4" data-spec-id="mentor-description">
                   Pre-consultation from mentors for selecting what to learn and career guidance
                 </p>
@@ -590,7 +754,7 @@ const Index = () => {
                       <GraduationCap className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-lg font-semibold text-white mb-2">Step 4</h3>
-                    <p className="text-sm text-gray-300">Book mentors & get expert guidance</p>
+                    <p className="text-sm text-gray-300">Consult with Mentors to accelerate your progress</p>
                   </CardContent>
                 </Card>
               </div>
@@ -600,622 +764,109 @@ const Index = () => {
                 <Card className="bg-gradient-to-br from-red-500/20 to-pink-500/20 backdrop-blur-md border-white/20">
                   <CardContent className="p-6 text-center">
                     <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Trophy className="w-8 h-8 text-white" />
+                      <Rocket className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-lg font-semibold text-white mb-2">Step 5</h3>
-                    <p className="text-sm text-gray-300">Showcase projects & credentials on your profile</p>
+                    <p className="text-sm text-gray-300">Launch a new career with your portfolio & community</p>
                   </CardContent>
                 </Card>
               </div>
             </div>
           </div>
-
-          <div className="text-center mt-12" data-spec-id="how-it-works-cta">
-            <Button size="lg" className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600" data-spec-id="begin-learning-btn" onClick={() => setIsLoggedIn(true)}>
-              Begin Your Learning
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-          </div>
         </div>
       </section>
 
-      {/* Explore & Collaborate Section */}
-      <section className="py-20 px-4" data-spec-id="explore-collaborate-section">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-6" data-spec-id="explore-title">
-              Build Your Own Project
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto" data-spec-id="explore-description">
-              Join collaborative projects across different domains and skill levels
-            </p>
+      {/* Leaderboard Section */}
+      <section className="py-20 px-4" data-spec-id="leaderboard-section">
+        <div className="container mx-auto max-w-4xl">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-white mb-6">Community Leaderboard</h2>
+            <p className="text-xl text-gray-300">See who's at the top and join the challenge!</p>
           </div>
-
-          {/* Domain Filter Tabs */}
-          <Tabs defaultValue="all" className="mb-12" data-spec-id="project-tabs">
-            <TabsList className="grid w-full grid-cols-6 bg-black/30 border-white/20">
-              <TabsTrigger value="all" className="data-[state=active]:bg-white/20 text-white">All</TabsTrigger>
-              <TabsTrigger value="ai" className="data-[state=active]:bg-white/20 text-white">AI</TabsTrigger>
-              <TabsTrigger value="webdev" className="data-[state=active]:bg-white/20 text-white">Web Dev</TabsTrigger>
-              <TabsTrigger value="design" className="data-[state=active]:bg-white/20 text-white">Design</TabsTrigger>
-              <TabsTrigger value="marketing" className="data-[state=active]:bg-white/20 text-white">Marketing</TabsTrigger>
-              <TabsTrigger value="product" className="data-[state=active]:bg-white/20 text-white">Product</TabsTrigger>
-            </TabsList>
-          </Tabs>
-
-          {/* Project Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12" data-spec-id="project-cards-grid">
-            {projects.map((project) => (
-              <Card key={project.id} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300" data-spec-id={`project-card-${project.id}`}>
-                <div className="aspect-video bg-gradient-to-br from-gray-700 to-gray-900 rounded-t-lg overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                    data-spec-id={`project-image-${project.id}`}
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-2" data-spec-id={`project-header-${project.id}`}>
-                    <Badge variant="secondary" className="bg-blue-500/20 text-blue-400" data-spec-id={`project-difficulty-${project.id}`}>
-                      {project.difficulty}
-                    </Badge>
-                    <div className="flex items-center gap-1 text-sm text-gray-300" data-spec-id={`project-collaborators-${project.id}`}>
-                      <Users className="w-4 h-4" />
-                      <span>{project.collaborators}</span>
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-semibold text-white mb-2" data-spec-id={`project-title-${project.id}`}>
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-400 mb-3" data-spec-id={`project-domain-${project.id}`}>
-                    {project.domain}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-4" data-spec-id={`project-tools-${project.id}`}>
-                    {project.tools.map((tool, index) => (
-                      <Badge key={index} variant="outline" className="border-white/30 text-gray-300">
-                        {tool}
-                      </Badge>
-                    ))}
-                  </div>
-                  <Button className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600" data-spec-id={`join-project-btn-${project.id}`}>
-                    Join Project
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center" data-spec-id="browse-projects-cta">
-            <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10" data-spec-id="browse-all-projects-btn">
-              Browse All Projects
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Mentor Consultation Section */}
-      <section className="py-20 px-4 bg-black/20" data-spec-id="mentor-consultation-section">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-6" data-spec-id="mentor-consultation-title">
-              Clear your Doubts what to learn next &gt; Get your Learning Roadmap &gt; Your Career Expert & Profile Builder
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto" data-spec-id="mentor-consultation-description">
-              Get personalized guidance from industry experts across different domains
-            </p>
-          </div>
-
-          {/* Mentor Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12" data-spec-id="mentor-cards-grid">
-            {mentors.map((mentor) => (
-              <Card key={mentor.id} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300" data-spec-id={`mentor-card-${mentor.id}`}>
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4 mb-4" data-spec-id={`mentor-header-${mentor.id}`}>
-                    <Avatar className="w-16 h-16" data-spec-id={`mentor-avatar-${mentor.id}`}>
-                      <AvatarImage src={mentor.image} alt={mentor.name} />
-                      <AvatarFallback>{mentor.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+          <Card className="bg-white/10 backdrop-blur-md border-white/20 p-6">
+            <div className="space-y-4">
+              {leaderboard.map((user, index) => (
+                <div key={index} className="flex items-center justify-between p-4 rounded-lg bg-gray-800/50">
+                  <div className="flex items-center gap-4">
+                    <span className="text-xl font-bold text-gray-400 w-8 text-center">#{index + 1}</span>
+                    <Avatar className="w-12 h-12">
+                      <AvatarImage src={user.image} alt={user.name} />
+                      <AvatarFallback>{user.name.split(" ").map(n => n[0]).join("")}</AvatarFallback>
                     </Avatar>
                     <div>
-                      <h3 className="text-xl font-semibold text-white" data-spec-id={`mentor-name-${mentor.id}`}>
-                        {mentor.name}
-                      </h3>
-                      <p className="text-gray-400" data-spec-id={`mentor-domain-${mentor.id}`}>
-                        {mentor.domain}
-                      </p>
+                      <h3 className="text-lg font-semibold text-white">{user.name}</h3>
+                      <p className="text-sm text-gray-400">{user.project}</p>
                     </div>
                   </div>
-                  
-                  <div className="space-y-3 mb-6" data-spec-id={`mentor-details-${mentor.id}`}>
-                    <div>
-                      <p className="text-sm text-gray-400 mb-1">Expertise:</p>
-                      <div className="flex flex-wrap gap-2" data-spec-id={`mentor-expertise-${mentor.id}`}>
-                        {mentor.expertise.map((skill, index) => (
-                          <Badge key={index} variant="outline" className="border-white/30 text-gray-300 text-xs">
-                            {skill}
-                          </Badge>
-                        ))}
-                      </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <div className="flex items-center gap-1 text-yellow-400 text-sm">
+                      <Trophy className="w-4 h-4" />
+                      <span>{user.points} pts</span>
                     </div>
-                    
-                    <div data-spec-id={`mentor-stats-${mentor.id}`}>
-                      <p className="text-sm text-gray-400">Experience: <span className="text-white">{mentor.experience}</span></p>
-                      <p className="text-sm text-gray-400">Success: <span className="text-green-400">{mentor.transformations}</span></p>
+                    <div className="flex items-center gap-1 text-orange-400 text-sm">
+                      <Flame className="w-4 h-4" />
+                      <span>{user.streak} day streak</span>
                     </div>
                   </div>
-
-                  <Button className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600" data-spec-id={`book-mentor-btn-${mentor.id}`}>
-                    Book Consultation Call
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center" data-spec-id="book-consultation-cta">
-            <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10" data-spec-id="book-consultation-btn">
-              Book A Consultation Call
-              <Calendar className="w-5 h-5 ml-2" />
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Know Your SME Section */}
-      <section className="py-20 px-4" data-spec-id="sme-experts-section">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-6" data-spec-id="sme-title">
-              Connect & Grow
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto" data-spec-id="sme-description">
-              Connect with subject matter experts and industry leaders
-            </p>
-          </div>
-
-          {/* SME Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12" data-spec-id="sme-cards-grid">
-            {smeExperts.map((sme) => (
-              <Card key={sme.id} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300" data-spec-id={`sme-card-${sme.id}`}>
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between mb-4" data-spec-id={`sme-header-${sme.id}`}>
-                    <div>
-                      <h3 className="text-xl font-semibold text-white mb-2" data-spec-id={`sme-name-${sme.id}`}>
-                        {sme.name}
-                      </h3>
-                      <p className="text-gray-400 mb-1" data-spec-id={`sme-domain-${sme.id}`}>
-                        {sme.domain}
-                      </p>
-                      <p className="text-sm text-gray-500" data-spec-id={`sme-experience-${sme.id}`}>
-                        {sme.experience}
-                      </p>
-                    </div>
-                    <Badge variant="outline" className="border-yellow-500/50 text-yellow-400">Expert</Badge>
-                  </div>
-
-                  <div className="space-y-3 mb-6" data-spec-id={`sme-details-${sme.id}`}>
-                    <div>
-                      <p className="text-sm text-gray-400 mb-2">Tools & Technologies:</p>
-                      <div className="flex flex-wrap gap-2" data-spec-id={`sme-tools-${sme.id}`}>
-                        {sme.tools.map((tool, index) => (
-                          <Badge key={index} variant="secondary" className="bg-blue-500/20 text-blue-400">
-                            {tool}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <p className="text-sm text-gray-400 mb-2">Expertise:</p>
-                      <div className="flex flex-wrap gap-2" data-spec-id={`sme-expertise-${sme.id}`}>
-                        {sme.expertise.map((skill, index) => (
-                          <Badge key={index} variant="outline" className="border-purple-500/50 text-purple-400">
-                            {skill}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <p className="text-sm text-gray-400 mb-2">Project Links:</p>
-                      <div className="space-y-1" data-spec-id={`sme-links-${sme.id}`}>
-                        {sme.projectLinks.map((link, index) => (
-                          <a key={index} href="#" className="text-sm text-blue-400 hover:text-blue-300 block underline">
-                            {link}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600" data-spec-id={`connect-sme-btn-${sme.id}`}>
-                    Connect with SME
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center" data-spec-id="connect-sme-cta">
-            <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10" data-spec-id="connect-sme-all-btn">
-              Connect with SME
-              <UserPlus className="w-5 h-5 ml-2" />
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Library Section */}
-      <section className="py-20 px-4 bg-black/20" data-spec-id="library-section">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-6" data-spec-id="library-title">
-              Library
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto" data-spec-id="library-description">
-              Curated resources, books, and learning materials across different domains
-            </p>
-          </div>
-
-          <Tabs defaultValue="tracks" className="mb-12" data-spec-id="library-tabs">
-            <TabsList className="grid w-full grid-cols-3 bg-black/30 border-white/20">
-              <TabsTrigger value="tracks" className="data-[state=active]:bg-white/20 text-white">Learning Tracks</TabsTrigger>
-              <TabsTrigger value="books" className="data-[state=active]:bg-white/20 text-white">Books & Publications</TabsTrigger>
-              <TabsTrigger value="cases" className="data-[state=active]:bg-white/20 text-white">Case Studies</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="tracks" className="mt-8" data-spec-id="learning-tracks-tab">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-spec-id="learning-tracks-grid">
-                {[
-                  { title: "AI & Machine Learning Track", source: "MIT OpenCourseWare", icon: Brain },
-                  { title: "Web Development Bootcamp", source: "freeCodeCamp", icon: Code },
-                  { title: "UI/UX Design Fundamentals", source: "Google Design", icon: Palette },
-                  { title: "Data Science Pipeline", source: "Kaggle Learn", icon: BarChart },
-                  { title: "Mobile App Development", source: "Flutter.dev", icon: Monitor },
-                  { title: "Digital Marketing Mastery", source: "HubSpot Academy", icon: TrendingUp }
-                ].map((track, index) => (
-                  <Card key={index} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300" data-spec-id={`track-card-${index}`}>
-                    <CardContent className="p-6">
-                      <track.icon className="w-12 h-12 text-blue-400 mb-4" />
-                      <h3 className="text-lg font-semibold text-white mb-2" data-spec-id={`track-title-${index}`}>
-                        {track.title}
-                      </h3>
-                      <p className="text-sm text-gray-400 mb-4" data-spec-id={`track-source-${index}`}>
-                        Source: {track.source}
-                      </p>
-                      <Button variant="outline" className="w-full border-white/30 text-white hover:bg-white/10" data-spec-id={`track-access-btn-${index}`}>
-                        Access Track
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="books" className="mt-8" data-spec-id="books-tab">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-spec-id="books-grid">
-                {[
-                  { title: "Clean Code", source: "Robert C. Martin" },
-                  { title: "The Design of Everyday Things", source: "Don Norman" },
-                  { title: "Hands-On Machine Learning", source: "Aurélien Géron" },
-                  { title: "Lean Startup", source: "Eric Ries" }
-                ].map((book, index) => (
-                  <Card key={index} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300" data-spec-id={`book-card-${index}`}>
-                    <CardContent className="p-4">
-                      <BookText className="w-8 h-8 text-green-400 mb-3" />
-                      <h3 className="font-semibold text-white mb-2" data-spec-id={`book-title-${index}`}>
-                        {book.title}
-                      </h3>
-                      <p className="text-sm text-gray-400 mb-4" data-spec-id={`book-author-${index}`}>
-                        {book.source}
-                      </p>
-                      <Button size="sm" variant="outline" className="w-full border-white/30 text-white hover:bg-white/10" data-spec-id={`book-read-btn-${index}`}>
-                        Read
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="cases" className="mt-8" data-spec-id="case-studies-tab">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6" data-spec-id="case-studies-grid">
-                {[
-                  { title: "Netflix Recommendation System", source: "Netflix Tech Blog", type: "AI Case Study" },
-                  { title: "Uber's Microservices Architecture", source: "Uber Engineering", type: "System Design" },
-                  { title: "Airbnb's Design System", source: "Airbnb Design", type: "Design Case Study" }
-                ].map((study, index) => (
-                  <Card key={index} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300" data-spec-id={`case-study-card-${index}`}>
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <FileText className="w-8 h-8 text-purple-400" />
-                        <Badge variant="secondary" className="bg-purple-500/20 text-purple-400">
-                          {study.type}
-                        </Badge>
-                      </div>
-                      <h3 className="text-lg font-semibold text-white mb-2" data-spec-id={`case-study-title-${index}`}>
-                        {study.title}
-                      </h3>
-                      <p className="text-sm text-gray-400 mb-4" data-spec-id={`case-study-source-${index}`}>
-                        Source: {study.source}
-                      </p>
-                      <Button variant="outline" className="border-white/30 text-white hover:bg-white/10" data-spec-id={`case-study-read-btn-${index}`}>
-                        Read Case Study
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
-          </Tabs>
-
-          <div className="text-center" data-spec-id="library-cta">
-            <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10" data-spec-id="view-all-resources-btn">
-              View All Resources
-              <BookOpen className="w-5 h-5 ml-2" />
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Top Learners & Peer Communities Section */}
-      <section className="py-20 px-4" data-spec-id="testimonials-section">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-6" data-spec-id="testimonials-title">
-              Top Learners & Peer Communities
-            </h2>
-            <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-lg p-6 max-w-2xl mx-auto mb-8" data-spec-id="success-metrics">
-              <p className="text-2xl font-bold text-white mb-2">80% of learners created their first project in 3 weeks</p>
-              <p className="text-gray-300">Join thousands who transformed their careers</p>
+                </div>
+              ))}
             </div>
-          </div>
+          </Card>
+        </div>
+      </section>
 
-          {/* Testimonials Carousel */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12" data-spec-id="testimonials-grid">
+      {/* Testimonials Section */}
+      <section className="py-20 px-4 bg-black/20" data-spec-id="testimonials-section">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-white mb-6">Success Stories</h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Hear from our learners who have transformed their careers with LearnAI.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300" data-spec-id={`testimonial-card-${index}`}>
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4 mb-4" data-spec-id={`testimonial-header-${index}`}>
-                    <Avatar className="w-16 h-16" data-spec-id={`testimonial-avatar-${index}`}>
-                      <AvatarImage src={testimonial.image} alt={testimonial.name} />
-                      <AvatarFallback>{testimonial.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h3 className="font-semibold text-white" data-spec-id={`testimonial-name-${index}`}>
-                        {testimonial.name}
-                      </h3>
-                      <p className="text-sm text-gray-400" data-spec-id={`testimonial-role-${index}`}>
-                        {testimonial.role}
-                      </p>
-                      <p className="text-xs text-gray-500" data-spec-id={`testimonial-background-${index}`}>
-                        {testimonial.background}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-gray-300 italic" data-spec-id={`testimonial-quote-${index}`}>
-                    "{testimonial.quote}"
-                  </p>
-                </CardContent>
+              <Card key={index} className="bg-white/10 backdrop-blur-md border-white/20 p-6 flex flex-col items-center text-center">
+                <Avatar className="w-20 h-20 mb-4">
+                  <AvatarImage src={testimonial.image} alt={testimonial.name} />
+                  <AvatarFallback>{testimonial.name.split(" ").map(n => n[0]).join("")}</AvatarFallback>
+                </Avatar>
+                <Star className="w-5 h-5 text-yellow-400 mb-2" />
+                <p className="text-white mb-4 italic">"{testimonial.quote}"</p>
+                <p className="font-semibold text-white">{testimonial.name}</p>
+                <p className="text-sm text-gray-400">{testimonial.role}</p>
+                <p className="text-xs text-gray-500">{testimonial.background}</p>
               </Card>
             ))}
           </div>
-
-          <div className="text-center" data-spec-id="community-cta">
-            <Button size="lg" className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600" data-spec-id="join-community-btn">
-              Join The Community
-              <Users className="w-5 h-5 ml-2" />
-            </Button>
-          </div>
         </div>
       </section>
 
-      {/* Leaderboard & Recognition Section */}
-      <section className="py-20 px-4 bg-black/20" data-spec-id="leaderboard-section">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-6" data-spec-id="leaderboard-title">
-              Leaderboard & Recognition
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto" data-spec-id="leaderboard-description">
-              Celebrate achievements and track progress with our community
-            </p>
+      {/* Footer Section */}
+      <footer className="bg-black/20 backdrop-blur-md border-t border-white/10 py-12 px-4" data-spec-id="main-footer">
+        <div className="container mx-auto text-center">
+          <div className="flex flex-col items-center gap-2 mb-4">
+            <Bot className="w-8 h-8 text-blue-400" />
+            <span className="text-xl font-bold text-white">LearnAI</span>
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            {/* Leaderboard Table */}
-            <Card className="bg-white/10 backdrop-blur-md border-white/20" data-spec-id="leaderboard-table">
-              <CardHeader>
-                <CardTitle className="text-white text-center" data-spec-id="leaderboard-table-title">
-                  Top Performers This Month
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4" data-spec-id="leaderboard-list">
-                  {leaderboard.map((learner, index) => (
-                    <div key={index} className="flex items-center gap-4 p-4 bg-white/5 rounded-lg" data-spec-id={`leaderboard-item-${index}`}>
-                      <div className="flex items-center gap-3">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
-                          index === 0 ? 'bg-yellow-500 text-black' : 
-                          index === 1 ? 'bg-gray-400 text-black' : 
-                          index === 2 ? 'bg-amber-600 text-black' : 'bg-gray-600 text-white'
-                        }`}>
-                          {index + 1}
-                        </div>
-                        <Avatar className="w-10 h-10">
-                          <AvatarImage src={learner.image} alt={learner.name} />
-                          <AvatarFallback>{learner.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                        </Avatar>
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-white font-medium" data-spec-id={`learner-name-${index}`}>
-                          {learner.name}
-                        </p>
-                        <p className="text-sm text-gray-400" data-spec-id={`learner-project-${index}`}>
-                          {learner.project}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <div className="flex items-center gap-2 mb-1">
-                          <Trophy className="w-4 h-4 text-yellow-400" />
-                          <span className="text-white font-bold" data-spec-id={`learner-points-${index}`}>
-                            {learner.points}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Flame className="w-3 h-3 text-orange-400" />
-                          <span className="text-xs text-gray-400" data-spec-id={`learner-streak-${index}`}>
-                            {learner.streak} days
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Featured Project & Problem of the Day */}
-            <div className="space-y-6">
-              {/* Project of the Week */}
-              <Card className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-md border-white/20" data-spec-id="project-of-week">
-                <CardHeader>
-                  <CardTitle className="text-white flex items-center gap-2" data-spec-id="project-week-title">
-                    <Trophy className="w-6 h-6 text-yellow-400" />
-                    Project of the Week
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4" data-spec-id="featured-project-details">
-                    <h3 className="text-lg font-semibold text-white">AI-Powered Code Reviewer</h3>
-                    <p className="text-gray-300">By Alex Chen</p>
-                    <p className="text-sm text-gray-400">
-                      An intelligent code review system that uses machine learning to identify bugs, 
-                      suggest improvements, and enforce coding standards across multiple programming languages.
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      <Badge variant="secondary" className="bg-blue-500/20 text-blue-400">Python</Badge>
-                      <Badge variant="secondary" className="bg-green-500/20 text-green-400">TensorFlow</Badge>
-                      <Badge variant="secondary" className="bg-purple-500/20 text-purple-400">NLP</Badge>
-                    </div>
-                    <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600" data-spec-id="view-featured-project-btn">
-                      View Project Details
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Problem of the Day */}
-              <Card className="bg-gradient-to-br from-green-500/20 to-blue-500/20 backdrop-blur-md border-white/20" data-spec-id="problem-of-day">
-                <CardHeader>
-                  <CardTitle className="text-white flex items-center gap-2" data-spec-id="problem-day-title">
-                    <Target className="w-6 h-6 text-green-400" />
-                    Problem of the Day
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4" data-spec-id="daily-problem-details">
-                    <h3 className="text-lg font-semibold text-white">Binary Tree Maximum Path Sum</h3>
-                    <p className="text-sm text-gray-400">Difficulty: Hard</p>
-                    <p className="text-gray-300">
-                      Find the maximum sum of any path in a binary tree. A path can start and end at any node.
-                    </p>
-                    <div className="flex items-center justify-between text-sm text-gray-400">
-                      <span>Attempted by 234 learners today</span>
-                      <div className="flex items-center gap-1">
-                        <Flame className="w-4 h-4 text-orange-400" />
-                        <span>+50 streak points</span>
-                      </div>
-                    </div>
-                    <Button className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600" data-spec-id="attempt-problem-btn">
-                      Attempt Problem
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+          <p className="text-gray-400 mb-8">
+            Build your future, one project at a time.
+          </p>
+          <div className="flex justify-center gap-6 mb-8">
+            <a href="#" className="text-gray-400 hover:text-white transition-colors"><Twitter className="w-6 h-6" /></a>
+            <a href="#" className="text-gray-400 hover:text-white transition-colors"><Linkedin className="w-6 h-6" /></a>
+            <a href="#" className="text-gray-400 hover:text-white transition-colors"><Instagram className="w-6 h-6" /></a>
           </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-black/40 backdrop-blur-md border-t border-white/10 py-12 px-4" data-spec-id="footer">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8" data-spec-id="footer-content">
-            {/* Brand Section */}
-            <div data-spec-id="footer-brand">
-              <div className="flex items-center gap-2 mb-4">
-                <Bot className="w-6 h-6 text-blue-400" />
-                <span className="text-xl font-bold text-white">LearnAI</span>
-              </div>
-              <p className="text-gray-400 mb-4">
-                Empowering the next generation of tech professionals through AI-powered learning, 
-                peer collaboration, and expert mentorship.
-              </p>
-            </div>
-
-            {/* Quick Links */}
-            <div data-spec-id="footer-quick-links">
-              <h3 className="font-semibold text-white mb-4">Quick Links</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors" data-spec-id="footer-home">Home</a></li>
-                <li><a href="#" className="hover:text-white transition-colors" data-spec-id="footer-about">About Us</a></li>
-                <li><a href="#" className="hover:text-white transition-colors" data-spec-id="footer-resources">Resources</a></li>
-                <li><a href="#" className="hover:text-white transition-colors" data-spec-id="footer-projects">Projects</a></li>
-                <li><a href="#" className="hover:text-white transition-colors" data-spec-id="footer-contact">Contact</a></li>
-              </ul>
-            </div>
-
-            {/* Policies */}
-            <div data-spec-id="footer-policies">
-              <h3 className="font-semibold text-white mb-4">Policies</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors" data-spec-id="footer-privacy">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-white transition-colors" data-spec-id="footer-terms">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-white transition-colors" data-spec-id="footer-cookies">Cookie Policy</a></li>
-              </ul>
-            </div>
-
-            {/* Newsletter & Social */}
-            <div data-spec-id="footer-newsletter">
-              <h3 className="font-semibold text-white mb-4">Stay Updated</h3>
-              <p className="text-gray-400 mb-4 text-sm">
-                Stay updated on new projects & learning tracks
-              </p>
-              <div className="flex gap-2 mb-4" data-spec-id="newsletter-signup">
-                <Input 
-                  placeholder="Enter your email" 
-                  className="bg-white/10 border-white/20 text-white placeholder-gray-400"
-                  data-spec-id="newsletter-email"
-                />
-                <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600" data-spec-id="newsletter-submit">
-                  <Send className="w-4 h-4" />
-                </Button>
-              </div>
-              <div className="flex gap-4" data-spec-id="social-media-icons">
-                <a href="#" className="text-gray-400 hover:text-white transition-colors" data-spec-id="social-linkedin">
-                  <Linkedin className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors" data-spec-id="social-instagram">
-                  <Instagram className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors" data-spec-id="social-twitter">
-                  <Twitter className="w-5 h-5" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <Separator className="bg-white/20 mb-8" />
-          
-          <div className="text-center text-gray-400" data-spec-id="footer-copyright">
-            <p>&copy; 2024 LearnAI. All rights reserved. Built with ❤️ for the next generation of learners.</p>
-          </div>
+          <p className="text-sm text-gray-500">&copy; {new Date().getFullYear()} LearnAI. All rights reserved.</p>
         </div>
       </footer>
     </div>
   )
+
+  // Main component return logic
+  return isLoggedIn ? renderDashboard() : renderLandingPage();
 }
 
-export default Index
+// Export the main component
+export default App;
+
